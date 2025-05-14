@@ -1,0 +1,29 @@
+how to generate a token using jwt 
+const jwt = require("jsonwebtoken");
+
+const generateToken = (user) => {
+    return jwt.sign({id: user._id, name: user.name}, process.env.jwt_secret, {expiresIn:"24h"});
+}
+
+///when we login we pass the token as an argument/parameter in the response we receuevr 
+
+const res = await fetch(`${BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+        'Content-Type':'application-json',
+    },
+    body: JSON.stringify(formData)
+});
+const result = res.json() response that xomes in json formats 
+if (!res.ok){
+    throw new Error(result.message);
+}
+
+dispatch({
+    type: 'Login_success',
+    payload: {
+        user: result.data,
+        token: result.token
+    }
+})
+//fetch method has three paramters url, then object {method, headers, body}
